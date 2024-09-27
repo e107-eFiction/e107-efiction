@@ -1,0 +1,17 @@
+User-agent: *
+Disallow: /sitedown.php
+Disallow: /cron.php
+Disallow: /fpw.php
+Disallow: /membersonly.php
+Disallow: /eadmin/
+Disallow: /ecore/
+Disallow: /edocs/
+Disallow: /efiles/cache/
+Disallow: /efiles/public/avatars/
+Disallow: /ehandlers/
+Disallow: /elanguages/
+Disallow: /emedia/
+Disallow: /esystem/
+Disallow: /ethemes/
+Disallow: /eweb/
+Disallow: /user/
