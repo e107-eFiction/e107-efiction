@@ -305,7 +305,7 @@ define('e_SECURITY_LEVEL', e_session::SECURITY_LEVEL_NONE);
 define('e_COOKIE', 'e107install');
 e107::getSession(); // starts session, creates default namespace
 // session_start();
-
+ 
 function include_lan($path, $force = false)
 {
 	unset($force);
@@ -1373,20 +1373,30 @@ class e_install
 					</td>
 
 				</tr>
-				
+		</table>
+		<table class='table table-striped'>	
 				<tr>
-					<td><label for='install_plugins'>" . LANINS_118 . "</label></td>
+					<td><label for='install_plugins'>" . LANINS_INSTALL_PLUGINS . "</label><br><span class='small'>" . LANINS_119 . "</span></td>
 					<td>
 						<input type='checkbox' name='install_plugins' checked='checked' id='install_plugins' value='1' />
-						<span class='field-help'>" . LANINS_119 . "</span>
+						
 					</td>
 				</tr>
 				
 				<tr>
-					<td><label for='generate_content'>" . LANINS_111 . "</label></td>
+					<td><label for='generate_panels'>". LANINS_PANELDATA. "</label>
+					<br><span class='small'>".LANINS_PANELDATAINFO."</span></td>
+					<td>
+						<input type='checkbox' name='generate_panels' checked='checked' id='generate_panels' value='1' />
+						
+					</td>
+				</tr>
+				<tr>
+					<td><label for='generate_content'>" . LANINS_111 . "</label>
+					<br><span class='small'>" . LANINS_112 . "</span></td>
 					<td>
 						<input type='checkbox' name='generate_content' checked='checked' id='generate_content' value='1' />
-						<span class='field-help'>" . LANINS_112 . "</span>
+						
 					</td>
 				</tr>
 			</table>
@@ -1471,6 +1481,11 @@ class e_install
 		if (varset($_POST['generate_content']))
 		{
 			$this->previous_steps['generate_content'] = $tp->filter($_POST['generate_content'], 'int');
+		}
+
+		if (varset($_POST['generate_panels']))
+		{
+			$this->previous_steps['generate_panels'] = $tp->filter($_POST['generate_panels'], 'int');
 		}
 
 		if (varset($_POST['install_plugins']))
@@ -1854,6 +1869,100 @@ return [
 				}
 			}
 		}
+
+		if (vartrue($this->previous_steps['generate_panels']))
+		{
+			$panellist = array(
+				array("submitted", "Submissions", "", "3", "5", "0", "A"),
+				array("versioncheck", "Version Check", "", "3", "7", "0", "A"),
+				array("newstory", "Add New Story", "stories.php?action=newstory&admin=1", "3", "3", "0", "A"),
+				array("addseries", "Add New Series", "series.php?action=add", "3", "3", "0", "A"),
+				array("news", "News", "", "3", "5", "0", "A"),
+				array("featured", "Featured Stories", "", "3", "5", "0", "A"),
+				array("characters", "Characters", "", "2", "2", "0", "A"),
+				array("ratings", "Ratings", "", "2", "3", "0", "A"),
+				array("members", "Members", "", "2", "5", "0", "A"),
+				array("mailusers", "Mail Users", "", "2", "6", "0", "A"),
+				array("settings", "Settings", "", "1", "2", "0", "A"),
+				array("blocks", "Blocks", "", "1", "3", "0", "A"),
+				array("censor", "Censor", "", "1", "0", "1", "A"),
+				array("admins", "Admins", "", "1", "6", "0", "A"),
+				array("classifications", "Classifications", "", "2", "4", "0", "A"),
+				array("categories", "Categories", "", "2", "1", "0", "A"),
+				array("custpages", "Custom Pages", "", "1", "4", "0", "A"),
+				array("validate", "Validate Submission", "", "3", "0", "1", "A"),
+				array("yesletter", "Validation Letter", "", "3", "0", "1", "A"),
+				array("noletter", "Rejection Letter", "", "3", "0", "1", "A"),
+				array("links", "Page Links", "", "1", "5", "0", "A"),
+				array("messages", "Message Settings", "", "2", "0", "1", "A"),
+				array("login", "Login", "", "0", "0", "1", "U"),
+				array("logout", "Logout", "", "1", "5", "0", "U"),
+				array("revreceived", "Reviews Received", "", "1", "0", "1", "U"),
+				array("editprefs", "Edit Preferences", "", "1", "2", "0", "U"),
+				array("lostpassword", "Lost Password", "", "0", "0", "1", "U"),
+				array("editbio", "Edit Bio", "", "1", "1", "0", "U"),
+				array("register", "Register", "", "0", "0", "1", "U"),
+				array("manageimages", "Manage Images", "", "1", "5", "0", "S"),
+				array("revres", "Review Response", "", "1", "0", "1", "U"),
+				array("stats", "View Your Statistics", "", "1", "3", "0", "U"),
+				array("newstory", "Add New Story", "stories.php?action=newstory", "1", "1", "0", "S"),
+				array("newseries", "Add New Series", "series.php?action=add", "1", "3", "0", "S"),
+				array("managestories", "Manage Stories", "stories.php?action=viewstories", "1", "2", "0", "S"),
+				array("manageseries", "Manage Series", "series.php?action=manage", "1", "4", "0", "S"),
+				array("reviewsby", "Your Reviews", "", "1", "0", "1", "U"),
+				array("storiesby", "Stories by {author}", "", "0", "1", "0", "P"),
+				array("seriesby", "Series by {author}", "", "0", "2", "0", "P"),
+				array("reviewsby", "Reviews by {author}", "", "0", "3", "0", "P"),
+				array("categories", "Categories", "", "0", "1", "0", "B"),
+				array("characters", "Characters", "", "0", "2", "0", "B"),
+				array("ratings", "Ratings", "", "0", "3", "0", "B"),
+				array("titles", "Titles", "", "0", "5", "0", "B"),
+				array("class", "Classes", "", "0", "0", "1", "B"),
+				array("recent", "Most Recent", "", "0", "0", "1", "B"),
+				array("featured", "Featured Stories", "", "0", "0", "1", "B"),
+				array("panels", "Panels", "", "1", "1", "0", "A"),
+				array("phpinfo", "PHP Info", "", "1", "7", "0", "A"),
+				array("contact", "Contact", "", "0", "0", "1", "P"),
+				array("series", "Series", "", "0", "4", "0", "B"),
+				array("viewlog", "Action Log", "", "1", "8", "0", "A"),
+				array("shortstories", "10 Shortest Stories", "toplists/default.php", "0", "6", "0", "L"),
+				array("longstories", "10 Longest Stories", "toplists/default.php", "0", "5", "0", "L"),
+				array("largeseries", "10 Largest Series", "toplists/default.php", "0", "1", "0", "L"),
+				array("smallseries", "10 Smallest Series", "toplists/default.php", "0", "2", "0", "L"),
+				array("reviewedseries", "10 Most Reviewed Series", "toplists/default.php", "0", "4", "0", "L"),
+				array("prolificauthors", "10 Most Prolific Authors", "toplists/default.php", "0", "10", "0", "L"),
+				array("prolificreviewers", "10 Most Prolific Reviewers", "toplists/default.php", "0", "12", "0", "L"),
+				array("reviewedstories", "10 Most Reviewed Stories", "toplists/default.php", "0", "8", "0", "L"),
+				array("readstories", "10 Most Read Stories", "toplists/default.php", "0", "9", "0", "L"),
+				array("manfavs", "Manage Favorites", "", "1", "2", "0", "F"),
+				array("favstories", "10 Most Favorite Stories", "toplists/default.php", "0", "7", "0", "L"),
+				array("favauthors", "10 Most Favorite Authors", "toplists/default.php", "0", "11", "0", "L"),
+				array("favseries", "10 Most Favorite Series", "toplists/default.php", "0", "3", "0", "L"),
+				array("favst", "Favorite Stories", "", "0", "0", "1", "F"),
+				array("favse", "Favorite Series", "", "0", "0", "1", "F"),
+				array("favau", "Favorite Authors", "", "0", "0", "1", "F"),
+				array("favst", "Favorite Stories", "", "0", "0", "1", "U"),
+				array("favse", "Favorite Series", "", "0", "0", "1", "U"),
+				array("favau", "Favorite Authors", "", "0", "0", "1", "U"),
+				array("favlist", "{author}\'s Favorites", "viewuser.php?action=manfavs", "0", "5", "0", "F"),
+				array("skins", "Skins", "", "3", "6", "0", "A"),
+				array("authorfields", "Profile Information", "", "1", "9", "0", "A"),
+				array("maintenance", "Archive Maintenance", "", "1", "10", "0", "A"),
+				array("manual", "Admin Manual", "", "3", "6", "0", "A"),
+				array('modules', 'Modules', '', 1, "11", 0, 'A')
+			);
+			$tableprefix = $this->previous_steps['mysql']['prefix'];
+			foreach ($panellist as $panel)
+			{
+				unset($panels);
+				$panels = e107::getDb()->gen("INSERT INTO `" . $tableprefix . "fanfiction_panels` 
+				(`panel_name`, `panel_title`, `panel_url`, `panel_level`, `panel_order`, `panel_hidden`, `panel_type`) 
+				VALUES ('" . $panel[0] . "', '" . $panel[1] . "', '" . $panel[2] . "', '" . $panel[3] . "', '" . $panel[4] . "', 
+				'" . $panel[5] . "', '" . $panel[6] . "');");
+ 			}
+
+		}
+
 
 		$tp = e107::getParser();
 
