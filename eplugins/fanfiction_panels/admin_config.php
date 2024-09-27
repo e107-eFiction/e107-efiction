@@ -8,9 +8,10 @@ if (!getperms('P'))
 	e107::redirect('admin');
 	exit;
 }
+//e107::addHandler('e_efiction', "{e_PLUGIN}efiction/efiction_handler.php");
 
 e107::lan('fanfiction_panels', true);
-
+ 
 
 class fanfiction_panels_adminArea extends e_admin_dispatcher
 {
@@ -30,9 +31,9 @@ class fanfiction_panels_adminArea extends e_admin_dispatcher
 	
 	protected $adminMenu = array(
 		//'main/prefs'		=> array('caption' => LAN_PREFS, 'perm' => 'P'),
-		'main/list'			=> array('caption'=> LAN_MANAGE, 'perm' => 'P'),
-		'main/create'		=> array('caption'=> _ADDNEWPANEL, 'perm' => 'P'),
-
+		'main/list'			=> array('caption'=> LAN_MANAGE,   'perm' => 'P'),
+		'main/create'		=> array('caption'=> _ADDNEWPANEL, 'perm' => 'P'   ),
+		'main/typeA'		=> array('caption' => LAN_MANAGE,  'perm' => 'P'),
 		// 'main/div0'      => array('divider'=> true),
 		  'main/help'		=> array('caption'=> 'Help Page', 'perm' => 'P'),
 		
@@ -78,7 +79,7 @@ class fanfiction_panels_ui extends e_admin_ui
 			'checkboxes'              => array ( 'title' => '', 'type' => null, 'data' => null, 'width' => '5%', 'thclass' => 'center', 'forced' => 'value', 'class' => 'center', 'toggle' => 'e-multiselect', 'readParms' => [], 'writeParms' => [],),
 			'panel_id'                => array ( 'title' => LAN_ID, 'type' => 'number', 'data' => 'int', 'width' => '5%', 'forced'=> true, 
 			  'help' => '', 'readParms' => [], 'writeParms' => [], 'class' => 'left', 'thclass' => 'left',),
-			'panel_name'              => array ( 'title' => LAN_TITLE, 'type' => 'text', 
+			'panel_name'              => array ( 'title' => LAN_NAME, 'type' => 'text', 
 			'data' => 'safestr', 'width' => 'auto', 'inline' => true, 'validate' => true, 'help' => '', 'readParms' => [], 'writeParms' => ['size' => 'xlarge'], 'class' => 'left', 'thclass' => 'left',),
 			'panel_title'             => array ( 'title' => LAN_TITLE, 'type' => 'text', 'data' => 'safestr', 'width' => 'auto', 'inline' => true, 
 			'validate' => true, 'help' => '', 'readParms' => [], 'writeParms' => ['size'=>'block-level'], 'class' => 'left', 'thclass' => 'left',),
@@ -110,13 +111,13 @@ class fanfiction_panels_ui extends e_admin_ui
 				e107::getMessage()->addWarning("This plugin is not yet installed. Saving and loading of preference or table data will fail.");
 			}
 
-		$paneltypes = array("A" => _ADMIN, "U" => _USERACCOUNT, "P" => _PROFILE, "F" => _FAVOR, "S" => _SUBMISSIONS, "B" => _BROWSE, "L" => _10LISTS);
-		$levels = array("0" => _LEVEL . " 0", "1" => _LEVEL . " 1",  "2" => _LEVEL . " 2", "3" => _LEVEL . " 3", "4" => _LEVEL . " 4");
+		$paneltypes = e107::getEfiction()->getPanelTypes();
+		$levels =   e107::getEfiction()->getUserLevels();
+
 		// Set drop-down values (if any). 
 		$this->fields['panel_level']['writeParms']['optArray'] = $levels; // Example Drop-down array. 
 		$this->fields['panel_type']['writeParms']['optArray'] = $paneltypes; // Example Drop-down array. 
 
- 
 	
 		}
 

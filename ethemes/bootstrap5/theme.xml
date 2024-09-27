@@ -5,12 +5,7 @@
 	<description>A starter template for bootstrap5 themes.</description>
 	<category>generic</category>
 	<plugins>
-        <plugin name='gallery' url='core' />
-        <plugin name='hero' url='core' />
-        <plugin name='rss_menu' url='core' />
-        <plugin name='social' url='core' />
-        <plugin name='tinymce4' url='core' />
-        <plugin name='tagcloud' url='core' />
+		<plugin name='fanfiction_panels' url='core' />
 	</plugins>
 	<keywords>
 		<word>bootstrap</word>

@@ -1385,12 +1385,29 @@ class e_install
 				
 				<tr>
 					<td><label for='generate_panels'>". LANINS_PANELDATA. "</label>
-					<br><span class='small'>".LANINS_PANELDATAINFO."</span></td>
+					<br><span class='small'>".LANINS_PANELDATAINFO. "</span></td>
 					<td>
 						<input type='checkbox' name='generate_panels' checked='checked' id='generate_panels' value='1' />
 						
 					</td>
 				</tr>
+				<tr>
+					<td><label for='generate_blocks'>" . LANINS_BLOCKDATA . "</label>
+					<br><span class='small'>" . LANINS_BLOCKDATANEW . "</span></td>
+					<td>
+						<input type='checkbox' name='generate_blocks' checked='checked' id='generate_blocks' value='1' />
+						
+					</td>
+				</tr>
+				<tr>
+					<td><label for='generate_pagelinks'>" . LANINS_LINKDATA . "</label>
+					<br><span class='small'>" . LANINS_LINKDATAINFO . "</span></td>
+					<td>
+						<input type='checkbox' name='generate_pagelinks' checked='checked' id='generate_pagelinks' value='1' />
+						
+					</td>
+				</tr>
+
 				<tr>
 					<td><label for='generate_content'>" . LANINS_111 . "</label>
 					<br><span class='small'>" . LANINS_112 . "</span></td>
@@ -1487,6 +1504,16 @@ class e_install
 		{
 			$this->previous_steps['generate_panels'] = $tp->filter($_POST['generate_panels'], 'int');
 		}
+
+		if (varset($_POST['generate_blocks']))
+		{
+			$this->previous_steps['generate_blocks'] = $tp->filter($_POST['generate_blocks'], 'int');
+		}
+		if (varset($_POST['generate_pagelinks']))
+		{
+			$this->previous_steps['generate_pagelinks'] = $tp->filter($_POST['generate_pagelinks'], 'int');
+		}
+
 
 		if (varset($_POST['install_plugins']))
 		{
@@ -1963,6 +1990,67 @@ return [
 
 		}
 
+		if (vartrue($this->previous_steps['generate_blocks']))
+		{
+
+			$blocklist = array(
+					array("categories", "Categories", "categories/categories.php", "1", ""),
+					array("featured", "Featured Stories", "featured/featured.php", "1", ""),
+					array("info", "Site Info", "info/info.php", "2", ""),
+					array("login", "Log In", "login/login.php", "1", ""),
+					array("menu", "Main Menu", "menu/menu.php", "1", ""),
+					array("random", "Random Story", "random/random.php", "2", ""),
+					array("recent", "Most Recent", "recent/recent.php", "2", "a:1:{s:3:\"num\";s:1:\"1\";}"),
+					array("skinchange", "Skin Change", "skinchange/skinchange.php", "1", ""),
+					array("news", "Site News", "news/news.php", "1", "a:1:{s:3:\"num\";s:1:\"1\";}")
+				);
+			$tableprefix = $this->previous_steps['mysql']['prefix'];
+			foreach ($blocklist as $block)
+			{
+				unset($blocks);
+				$blocks = e107::getDb()->gen("INSERT INTO `" . $tableprefix . "fanfiction_blocks` (`block_name`, `block_title`, `block_file`, `block_status`, `block_variables`) VALUES('" . $block[0] . "', '" . $block[1] . "', '" . $block[2] . "', '" . $block[3] . "', '" .  $block[4] . "');");
+ 			}
+
+		}
+
+		if (vartrue($this->previous_steps['generate_pagelinks']))
+		{
+			$pagelist = array(
+				array("home", "Home", "index.php", "0", "0"),
+				array("recent", "Most Recent", "browse.php?type=recent", "0", "0"),
+				array("login", "Login", "user.php?action=login", "0", "0"),
+				array("adminarea", "Admin", "admin.php", "0", "2"),
+				array("logout", "Logout", "user.php?action=logout", "0", "1"),
+				array("featured", "Featured Stories", "browse.php?type=featured", "0", "0"),
+				array("catslink", "Categories", "browse.php?type=categories", "0", "0"),
+				array("members", "Members", "authors.php?action=list", "0", "0"),
+				array("authors", "Authors", "authors.php?list=authors", "0", "0"),
+				array("help", "Help", "viewpage.php?page=help", "0", "0"),
+				array("search", "Search", "search.php", "0", "0"),
+				array("series", "Series", "browse.php?type=series", "0", "0"),
+				array("tens", "Top Tens", "toplists.php", "0", "0"),
+				array("challenges", "Challenges", "modules/challenges/challenges.php", "0", "0"),
+				array("contactus", "Contact Us", "contact.php", "0", "0"),
+				array("rules", "Rules", "viewpage.php?page=rules", "0", "0"),
+				array("tos", "Terms of Service", "viewpage.php?page=tos", "0", "0"),
+				array("rss", "<img src=\'images/xml.gif\' alt=\'RSS\' border=\'0\'>", "rss.php", "0", "0"),
+				array("login", "Account Info", "user.php", "0", "1"),
+				array("titles", "Titles", "browse.php?type=titles", "0", "0"),
+				array("register", "Register", "user.php?action=register", "0", "0"),
+				array("lostpassword", "Lost Password", "user.php?action=lostpassword", "0", "0"),
+				array("newsarchive", "News Archive", "news.php", "0", "0"),
+				array("browse", "Browse", "browse.php", "0", "0"),
+				array("charslink", "Characters", "browse.php?type=characters", "0", "0"),
+				array("ratings", "Ratings", "browse.php?type=ratings", "0", "0"),
+			);
+
+			foreach ($pagelist as $page)
+			{
+				unset($pages);
+				$pages = e107::getDb()->gen("INSERT INTO `" . $tableprefix . "fanfiction_pagelinks` (`link_name`, `link_text`, `link_url`, `link_target`, `link_access`) VALUES ('" . $page[0] . "', '" . $page[1] . "', '" . $page[2] . "', '" . $page[3] . "', '" . $page[4] . "');");
+ 			}
+
+		}
 
 		$tp = e107::getParser();
 

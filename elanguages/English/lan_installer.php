@@ -186,3 +186,18 @@ define("LANINS_145", "e107 v2.x requires the PHP [x] to be installed. Please con
 define("LANINS_146", "Admin-area Skin");
 define("LANINS_147", "Administration");
 
+/* temp solution */
+
+define("LANINS_BLOCKDATA", "Install Block Data");
+define("LANINS_BLOCKDATANEW", "This step will install the default block data. You may change these settings at any time using the Block admin interface in your admin area.");
+
+define("LANINS_INSTALL_PLUGINS", "Install eFiction Plugins");
+
+
+define("LANINS_PANELDATA", "Install Panel Data?");
+define("LANINS_PANELDATAINFO", "This step will install the default configuration of panels for the admin area, user account area, top 10 lists
+			 and user profile page.	You may change these settings at any time using the panels admin interface in your admin area.");
+
+define("LANINS_LINKDATA", "Install Navigation Link Data");
+define("LANINS_LINKDATAINFO", "This step will install the default navigation link data. You may change these settings at any time 
+			using the Page Links admin interface in your admin area.");

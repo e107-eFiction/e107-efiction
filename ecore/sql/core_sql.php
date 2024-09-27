@@ -644,6 +644,12 @@ exit;
   ) ENGINE=InnoDB;
   # --------------------------------------------------------
 
+
+  #
+  # Table structure for table e107_fanfiction_panels
+  #
+
+
   CREATE TABLE fanfiction_panels (
   panel_id int(11) NOT NULL auto_increment,
   panel_name varchar(50) NOT NULL default 'unknown',
@@ -655,4 +661,37 @@ exit;
   panel_type varchar(20) NOT NULL default 'A',
   PRIMARY KEY (panel_id),
   KEY panel_type (panel_type,panel_name)
+  ) ENGINE=InnoDB;
+  # --------------------------------------------------------
+
+
+  #
+  # Table structure for table e107_fanfiction_blocks
+  #
+
+  CREATE TABLE fanfiction_blocks (
+  block_id int(11) NOT NULL auto_increment,
+  block_name varchar(30) NOT NULL default '',
+  block_title varchar(150) NOT NULL default '',
+  block_file varchar(200) NOT NULL default '',
+  block_status tinyint(1) NOT NULL default '0',
+  block_variables text NOT NULL,
+  PRIMARY KEY (block_id),
+  KEY block_name (block_name)
+  ) ENGINE=InnoDB;
+  # --------------------------------------------------------
+
+  #
+  # Table structure for table e107_fanfiction_pagelinks
+  #
+
+  CREATE TABLE fanfiction_pagelinks (
+  link_id int(11) NOT NULL auto_increment,
+  link_name varchar(50) NOT NULL default '',
+  link_text varchar(100) NOT NULL default '',
+  link_url varchar(250) NOT NULL default '',
+  link_target char(1) NOT NULL default '0',
+  link_access tinyint(4) NOT NULL default '0',
+  PRIMARY KEY (link_id),
+  KEY link_name (link_name)
   ) ENGINE=InnoDB;

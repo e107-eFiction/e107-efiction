@@ -269,7 +269,8 @@ class e107
 		'error_page'                     => '{e_HANDLER}error_page_class.php',
 
 		// Core plugin auto-loaders.
-		'pageHelper'                     => '{e_PLUGIN}page/includes/pageHelper.php'
+		'pageHelper'                     => '{e_PLUGIN}page/includes/pageHelper.php',
+		'e_efiction'                     => '{e_PLUGIN}efiction/efiction_handler.php'
 	);
 
 	/**
@@ -1045,6 +1046,7 @@ class e107
 		{
 			self::$_known_handlers[$class_name] = $path;
 		}
+ 
 	}
 
 	/**
@@ -1724,6 +1726,17 @@ class e107
 	public static function getEmail($overrides=null)
 	{
 		return self::getSingleton('e107Email', true, null, $overrides);
+	}
+
+	/**
+	 * Retrieve e107Email singleton object
+	 *
+	 * @return efiction
+	 */
+	public static function getEfiction($overrides=null)
+	{
+ 
+		return self::getSingleton('e_efiction', true, null, $overrides);
 	}
 
 

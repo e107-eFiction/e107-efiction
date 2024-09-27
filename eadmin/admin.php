@@ -58,6 +58,7 @@ if(class_exists($_class, false))
 }
 else
 {
+	require_once(e_ADMIN . 'includes/infopanel.php');
 	$adp = new adminstyle_infopanel;
 }
  
@@ -860,5 +861,3 @@ function log_request()
 
 
 require_once("footer.php");
-
-
