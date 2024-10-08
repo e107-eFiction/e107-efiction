@@ -49,7 +49,7 @@ define("_HELP_PANELORDER", "This option will fix errors in the numbering of the 
 // define ("_ADMINEDIT", "Admin Edits");
 // define ("_ADMINEMAIL", "Admin E-mail");
 // 
-// define ("_ADMINS", "Admins");
+
 // define ("_AGESTATEMENT", "Age statement in user profile");
 // define ("_ALERTSON", "Alerts on");
 // define ("_ALLOWRATEONLY", "Allow Ratings Only");
@@ -68,7 +68,7 @@ define("_HELP_PANELORDER", "This option will fix errors in the numbering of the 
 // define ("_BADLOGIN", "Bad Logins");
 // define ("_BADVARNAME", "Name variables must include alpha-numeric, -, and - characters only.");
 // define ("_BLOCKTYPE", "Block style");
-// define ("_BOTHLINKSTYLE", "Both");
+
 // define ("_CAPTCHA", "Use captcha verification");
 // define ("_CATCOUNTSUPDATED", "Category counts updated.");
 // define ("_CATERROR", "The category cannot be a sub-category of itself.");
@@ -141,7 +141,7 @@ define("_HELP_PANELORDER", "This option will fix errors in the numbering of the 
 // define ("_FIELDCUSTOM", "Custom Code");
 // define ("_FIELDON", "Field enabled");
 // define ("_FILES", "Files");
-// define ("_FIRSTLAST", "First and Last Pages");
+
 // define ("_FOREIGNAUTHORTABLE", "You appear to be using a non-eFiction author table.");
 // define ("_FOREIGNDELETE", " All content within eFiction for this member has been deleted.  To delete the member's account please use the appropriate function in the other application.");
 // define ("_FUNCTIONDISABLED", "That function is disabled while the script is bridged.");
@@ -161,11 +161,11 @@ define("_HELP_PANELORDER", "This option will fix errors in the numbering of the 
 // define ("_LANGUAGE", "Language");
 // 
 // define ("_LIKESYS", "Like/Dislike"); // Changed to avoid conflict with user _LIKE declaration
-// define ("_LINKACCESS", "Link Access Level"); 
+
 // define ("_LINKKEY", "Link Access Key");
-// define ("_LINKRANGE", "Size of Range for Page Links");
+
 // define ("_LINKS", "Links");  
-// define ("_LINKSTYLE", "Style of page links");
+
 // define ("_LINKTEXT", "Text of Link");
 // define ("_LOCKCONFIRM", "Are you sure you want to lock this member's account?");
 // define ("_LOCKMEMLIST", "Locked Members");
@@ -187,9 +187,6 @@ define("_HELP_PANELORDER", "This option will fix errors in the numbering of the 
 // define ("_MODNOTINSTALLED", "This module is not installed.");
 // define ("_MORETHANONE", "More than one");
 // define ("_MYSQL", "mySQL");
-// define ("_NAMECONVENTIONS", 
-// "<strong>Note:</strong> Names will be used in variables within the script and in your skin template files.  
-// Therefore, you should use letters and numbers ONLY.  <span style=\"text-decoration: underline;\">No spaces or punctuation marks!</span>");
 // define ("_NATPL", "Not applicable.  Use .tpl selected.");
 // define ("_NEWCAT", "New Category");
 // define ("_NEWCHAR", "New Character");
@@ -198,8 +195,8 @@ define("_HELP_PANELORDER", "This option will fix errors in the numbering of the 
 // define ("_NEWRAT", "New Rating");
 // define ("_NEWREG", "New Registrations");
 // define ("_NEWSCOMMENTS", "Turn on News Comments");
-// define ("_NEWWINDOW", "New Window");
-// define ("_NEXTPREV", "Next and Previous Links");
+
+
 // define ("_NOLETTER", "Rejection Letter");
 // define ("_NONVALMEMBERS", "Non-validated Members");
 // define ("_NOPANELS", "No admin panels found!"); 
@@ -235,7 +232,7 @@ define("_HELP_PANELORDER", "This option will fix errors in the numbering of the 
 // define ("_REVIEWSETTINGS", "Review Settings"); 
 // define ("_RULES", "Rules");
 // define ("_RUNNINGVERSION", "You are currently running eFiction version ".$version.".");
-// define ("_SAMEWINDOW", "Same Window");
+ 
 // define ("_SECURITYDELETE", "You have not deleted the install folder! Please do so immediately to prevent a security breach.");
 // define ("_SELF", "member selected");
 // define ("_SELECTONE", "Select One");
@@ -265,7 +262,7 @@ define("_HELP_PANELORDER", "This option will fix errors in the numbering of the 
 // define ("_SUBMITTED", "View Submitted");
 // define ("_TABLEPREFIX", "Table Prefix");
 // define ("_TAGS", "Allowed Tags");
-// define ("_TARGET", "Link Target");
+
 // define ("_THANKYOU", "Acceptance letter (default)");
 // define ("_TIMEFORMAT", "Time format");
 // define ("_TINYMCE", "TinyMCE Configuration");
@@ -376,8 +373,6 @@ define("_HELP_PANELORDER", "This option will fix errors in the numbering of the 
 // define ("_HELP_FIELDIDURL", "Enter the URL pattern to be used with this ID, using {info} in place of the ID.  For example, http://{info}.livejournal.com.");
 // define ("_HELP_FIELDSELECT", "Enter the options for the select list.  One per line.");
 // define ("_HELP_FIELDTYPE", "Choose the type of field this will be.");
-// define ("_HELP_LINKSTYLE", "The format in which the pagination links at the bottom of multi-page results will apppear.");
-// define ("_HELP_LINKRANGE", "The number of pages to display at one time in the pagination links at the bottom of multi-page results.");
 // define ("_HELP_DEBUG", "Set this to yes, to display information that will help you debug problems on your site.");
 // define ("_HELP_RECALCREVIEWS", "Click here to fix the count and ratings for reviews.");
 // define ("_HELP_OPTIMIZE", "Click here to optimize your database tables.  You should perform this maintenance periodically to improve site performance.");

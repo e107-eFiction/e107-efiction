@@ -69,6 +69,12 @@ class e_efiction
         return $panels;
     }
 
+    function update_settings($panels)
+    {
+        // e107::pref('fanfiction_pagelinks','linkstyle');
+        // e107::pref('fanfiction_pagelinks','linkrange');
+    }
+
     function setAccessConstants()
     {
         if (e107::getUser()->isMainAdmin())  //e107 superadmin

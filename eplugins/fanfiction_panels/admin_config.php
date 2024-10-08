@@ -48,7 +48,7 @@ class fanfiction_panels_adminArea extends e_admin_dispatcher
 		'main/list'			=> array('caption' => LAN_MANAGE,   'perm' => 'P'),
 		'main/create'		=> array('caption' => _ADDNEWPANEL, 'perm' => 'P'),
 		'main/div0'      => array('divider' => true),
-		//  'main/help'		=> array('caption'=> 'Help Page', 'perm' => 'P'),
+ 
 
 	);
 
