@@ -21,9 +21,7 @@ alter table fanfiction_inseries drop index sid;
 alter table fanfiction_inseries add primary key (sid,seriesid);
 create index message_name on fanfiction_messages (message_name);
 alter table fanfiction_pagelinks drop index link_text;
-alter table fanfiction_panels drop index panel_hidden;
-alter table fanfiction_panels drop index panel_type;
-alter table fanfiction_panels add index panel_type (panel_type,panel_name);
+ 
 create index avgrating on fanfiction_reviews(type,item,rating);
 alter table fanfiction_reviews drop index sid;
 create index bychapter on fanfiction_reviews (chapid,rating);

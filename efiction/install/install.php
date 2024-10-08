@@ -428,8 +428,8 @@ switch ($_GET['step'])
 					array("class", "Classes", "", "0", "0", "1", "B"),
 					array("recent", "Most Recent", "", "0", "0", "1", "B"),
 					array("featured", "Featured Stories", "", "0", "0", "1", "B"),
-					array("panels", "Panels", "", "1", "1", "0", "A"),
-					array("phpinfo", "PHP Info", "", "1", "7", "0", "A"),
+			 
+			 
 					array("contact", "Contact", "", "0", "0", "1", "P"),
 					array("series", "Series", "", "0", "4", "0", "B"),
 					array("viewlog", "Action Log", "", "1", "8", "0", "A"),

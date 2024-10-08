@@ -24,30 +24,7 @@
 
 if(!defined("_CHARSET")) exit( );
 
-function updatePanelOrder( ) {
-	
-	$ptypes = dbquery("SELECT panel_type FROM ".TABLEPREFIX."fanfiction_panels GROUP BY panel_type");
-	while($ptype = dbassoc($ptypes)) {
-		if($ptype['panel_type'] == "A") {
-			for($x = 1; $x < 5; $x++) {
-				$count = 1;
-				$plist = dbquery("SELECT panel_name, panel_id FROM ".TABLEPREFIX."fanfiction_panels WHERE panel_hidden = '0' AND panel_type = '".$ptype['panel_type']."' AND panel_level = '$x' ORDER BY panel_level, panel_order");
-				while($p = dbassoc($plist)) {
-					dbquery("UPDATE ".TABLEPREFIX."fanfiction_panels SET panel_order = '$count' WHERE panel_id = '".$p['panel_id']."' LIMIT 1");
-					$count++;
-				}
-			}
-		}
-		else {
-			$count = 1;
-			$plist = dbquery("SELECT panel_name, panel_id FROM ".TABLEPREFIX."fanfiction_panels WHERE panel_hidden = '0' AND panel_type = '".$ptype['panel_type']."' ORDER BY ".($ptype['panel_type'] == "A" ? "panel_level," : "")."panel_order");
-			while($p = dbassoc($plist)) {
-				dbquery("UPDATE ".TABLEPREFIX."fanfiction_panels SET panel_order = '$count' WHERE panel_id = '".$p['panel_id']."' LIMIT 1");
-				$count++;
-			}
-		}
-	}
-}
+ 
 
 if($action == "settings") {
 $output .= "<h1>"._SETTINGS."</h1><div style='text-align: center;'>

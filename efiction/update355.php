@@ -77,9 +77,7 @@ if($confirm == "yes") {
 		dbquery("alter table ".TABLEPREFIX."fanfiction_inseries add primary key (sid,seriesid);");
 		dbquery("create index message_name on ".TABLEPREFIX."fanfiction_messages (message_name);");
 		dbquery("alter table ".TABLEPREFIX."fanfiction_pagelinks drop index link_text;");
-		dbquery("alter table ".TABLEPREFIX."fanfiction_panels drop index panel_hidden;");
-		dbquery("alter table ".TABLEPREFIX."fanfiction_panels drop index panel_type;");
-		dbquery("alter table ".TABLEPREFIX."fanfiction_panels add index panel_type (panel_type,panel_name);");
+ 
 		dbquery("create index avgrating on ".TABLEPREFIX."fanfiction_reviews(type,item,rating);");
 		dbquery("alter table ".TABLEPREFIX."fanfiction_reviews drop index sid;");
 		dbquery("create index bychapter on ".TABLEPREFIX."fanfiction_reviews (chapid,rating);");

@@ -181,7 +181,7 @@ define("_UPGRADE11END", "You may now delete the following files and directories:
 <li>langadmin.php</li>
 <li>languser.php</li>
 <li>lib/ folder</li>
-<li>phpinfo.php <strong>(Poses a security risk!)</strong></li>
+ 
 <li>storyblock.php (A new version has been placed in the includes/ folder)</li>
 <li>timefunctions.php</li>
 <li>titles.php (handled through browse.php)</li>

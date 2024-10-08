@@ -338,23 +338,7 @@ CREATE TABLE `fanfiction_pagelinks` (
 
 -- --------------------------------------------------------
 
--- 
--- Table structure for table `fanfiction_panels`
--- 
-
-CREATE TABLE `fanfiction_panels` (
-  `panel_id` int(11) NOT NULL auto_increment,
-  `panel_name` varchar(50) NOT NULL default 'unknown',
-  `panel_title` varchar(100) NOT NULL default 'Unnamed Panel',
-  `panel_url` varchar(100) default NULL,
-  `panel_level` tinyint(4) NOT NULL default '3',
-  `panel_order` tinyint(4) NOT NULL default '0',
-  `panel_hidden` tinyint(1) NOT NULL default '0',
-  `panel_type` varchar(20) NOT NULL default 'A',
-  PRIMARY KEY  (`panel_id`),
-  KEY `panel_type` (`panel_type`,`panel_name`)
-) ENGINE=MyISAM;
-
+ 
 -- --------------------------------------------------------
 
 -- 
