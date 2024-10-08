@@ -63,6 +63,15 @@ class e_efiction
             $url = $plug->getAdminUrl();
             $panels['panels']['panel_url'] =  $url;
         }
+
+        if (!e107::isInstalled('fanfiction_pagelinks'))  unset($panels['links']);
+        else
+        {
+            $plug->load('fanfiction_pagelinks');
+            $url = $plug->getAdminUrl();
+            $panels['links']['panel_url'] =  $url;
+        }
+
         $panels['phpinfo']['panel_url'] =  e_ADMIN_ABS . 'phpinfo.php';
        
 
