@@ -63,10 +63,7 @@ define("_FAV5", "Table favseries dropped.");
 define("_FAV6", "Table favauth dropped.");
 define("_INSTALLTABLES", "Install Tables");
 define("_LINKDATA", "Install Navigation Link Data");
-define("_LINKDATAINFO", "This step will install the default navigation link data. You may change these settings at any time 
-			using the Page Links admin interface in your admin area.");
-define("_LINKMANUAL", "Manually install the default data for the navigation links provided in the information in pagelinks.sql found in the docs/ folder now.");
-define("_LINKSETUP", "How do you want to install the page links data?");
+ 
 define("_LINKAUTOFAIL", "If a link failed to install, please use the default data for pagelinks provided in the information in pagelinks.sql file in the docs/ folder to install it manually now.");
 define("_MESSAGEDATA", "Message Data");
 define("_MESSAGEMANUAL", "Manually install the messages from the messages.sql file found in the docs/ folder now.");

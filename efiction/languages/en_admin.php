@@ -135,9 +135,9 @@ define ("_LIKESYS", "Like/Dislike"); // Changed to avoid conflict with user _LIK
 if (!defined("_LIKES_NUMBER")) define("_LIKES_NUMBER", "Number of Likes");  
 define ("_LINKACCESS", "Link Access Level"); 
 define ("_LINKKEY", "Link Access Key");
-define ("_LINKRANGE", "Size of Range for Page Links");
+ 
 define ("_LINKS", "Links");  
-define ("_LINKSTYLE", "Style of page links");
+ 
 define ("_LINKTEXT", "Text of Link");
 define ("_LOCKCONFIRM", "Are you sure you want to lock this member's account?");
 define ("_LOCKMEMLIST", "Locked Members");

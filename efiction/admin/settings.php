@@ -374,16 +374,8 @@ if(isset($_POST['submit'])) {
 				<option value='1'".($displayprofile ? " selected" : "").">"._YES."</option>
 				<option value='0'".(!$displayprofile ? " selected" : "").">"._NO."</option>
 			</select> <a href='#' class='pophelp'>[?]<span>"._HELP_DISPLAYPROFILE."</span></a></td>
-		</tr>
-		<tr>
-			<td><label for='newdisplayprofile'>"._LINKSTYLE.":</label></td><td><select name='newlinkstyle'>
-				<option value='2'".($linkstyle == 2 ? " selected" : "").">"._BOTHLINKSTYLE."</option>
-				<option value='1'".($linkstyle == 1 ? " selected" : "").">"._FIRSTLAST."</option>
-				<option value='0'".(!$linkstyle ? " selected" : "").">"._NEXTPREV."</option>
-			</select> <a href='#' class='pophelp'>[?]<span>"._HELP_LINKSTYLE."</span></a></td>
-		</tr>
-		<tr>
-			<td><label for='newlinkrange'>"._LINKRANGE.":</label></td><td><input  type='text' class='textbox=' name='newlinkrange' size='3' value='$linkrange'> <a href='#' class='pophelp'>[?]<span>"._HELP_LINKRANGE."</span></a></td></tr>";
+		</tr>';
+		 
 	}
 	else if($sect == "reviews") {
 		$output .= "<h2>"._REVIEWSETTINGS."</h2>

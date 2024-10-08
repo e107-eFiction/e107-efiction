@@ -87,10 +87,7 @@ if(isset($_GET['edit']) || isset($_GET["new"])) {
 	<label for=\"link_text\">"._LINKTEXT.":</label> <input type=\"text\" class=\"textbox\" name=\"link_text\" value=\"$text\"><br />
 	<label for=\"link_key\">"._LINKKEY.":</label> <input type=\"text\" class=\"textbox\" name=\"link_key\" value=\"$accesskey\" size=\"1\"><br />
 	<label for=\"link_url\">"._URL.":</label> <input type=\"text\" class=\"textbox\" name=\"link_url\" value=\"$url\"><br />
-	<label for=\"link_target\">"._TARGET.":</label> <select name=\"link_target\" class=\"textbox\">
-		<option value=\"0\"".($target ? "" : " selected").">"._SAMEWINDOW."</option>
-		<option value=\"1\"".($target ? " selected" : "").">"._NEWWINDOW."</option>
-	</select><br />
+ 
 	<label for=\"link_access\">"._LINKACCESS.":</label> <select name=\"link_access\" class=\"textbox\">
 		<option value=\"0\"".($access ? "" : " selected").">"._ALL."</option>
 		<option value=\"1\"".($access == 1 ? " selected" : "").">"._MEMBERS."</option>
