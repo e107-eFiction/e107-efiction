@@ -13,15 +13,16 @@ if (!defined('e107_INIT'))
     exit;
 }
 
-class e_efiction {
+class e_efiction
+{
 
     public $efiction;
     public $panels;
-	/**
-	 * @param $force
-	 */
-	public function __construct($force = false)
-	{
+    /**
+     * @param $force
+     */
+    public function __construct($force = false)
+    {
         $ecache = e107::getCache();
 
         $this->setAccessConstants();
@@ -44,49 +45,63 @@ class e_efiction {
             $this->efiction['panel_types'] = $paneltypes;
             $this->efiction['levels'] = $levels;
 
-            $panels = e107::getDb()->retrieve('fanfiction_panels', "*", null, true);
-            $this->efiction['panels'] = $panels; 
-
+            $panels = e107::getDb()->retrieve('fanfiction_panels', "*", null, true, 'panel_name');
+            
+            $this->efiction['panels'] = $this->update_panels($panels); 
+           // print_a($panels['phpinfo']);
             $ecache->set_sys('nomd5_efiction', e107::serialize($this->efiction, false));
         }
-
-
     }
 
-    function setAccessConstants() {
+    function update_panels($panels) {
+        $plug = e107::getPlug();
+        $data = $plug->getInstalled();
+        
+        if (!e107::isInstalled('fanfiction_panels'))  unset($panels['panels']);
+        else {
+            $plug->load('fanfiction_panels');
+            $url = $plug->getAdminUrl();
+            $panels['panels']['panel_url'] =  $url;
+        }
+        $panels['phpinfo']['panel_url'] =  e_ADMIN_ABS . 'phpinfo.php';
+       
+
+        return $panels;
+    }
+
+    function setAccessConstants()
+    {
         if (e107::getUser()->isMainAdmin())  //e107 superadmin
         {
             define('uLEVEL', "1");
             define('isADMIN', true);
             define('isMEMBER', true);
         }
-        elseif(e107::getUser()->isAdmin()) 
+        elseif (e107::getUser()->isAdmin())
         {
             define('uLEVEL', "2");
             define('isADMIN', true);
-            define('isMEMBER', true); 
+            define('isMEMBER', true);
         }
-        elseif (e107::getUser()->isUser()) {
+        elseif (e107::getUser()->isUser())
+        {
             define('uLEVEL', "0");
             define('isADMIN', false);
-            define('isMEMBER', true); 
+            define('isMEMBER', true);
         }
-        elseif(e107::getUser()->isGuest()) {
+        elseif (e107::getUser()->isGuest())
+        {
             define('uLEVEL', "0");
             define('isADMIN', false);
             define('isMEMBER', false);
         }
-        else {
+        else
+        {
             define('uLEVEL', "0");
             define('isADMIN', false);
             define('isMEMBER', false);
             define('USERUID', 0);
         }
-
-
-
-
-
     }
 
     /**
@@ -108,7 +123,8 @@ class e_efiction {
     /**
      * @return array
      */
-    public function getUserPanels($type = NULL,  $hidden = false, $level = 5 ) {
+    public function getUserPanels($type = NULL,  $hidden = false, $level = 5)
+    {
 
         $panels =  $this->efiction['panels'];
         $level = uLEVEL;
@@ -119,6 +135,6 @@ class e_efiction {
             return $panel['panel_type'] == $type && $panel['panel_hidden'] == $hidden && $panel['panel_level'] >= $level;
         });
 
-         return $result;
+        return $result;
     }
 }

@@ -1,7 +1,12 @@
 <?php
 
 define ("LAN_HELP_PANELS", "Several pages within eFiction use panels to dynamically add to their options and features including this Admin area.  Select the panel type to re-arrange the order of the panels for that type.");
+
+define("_ACTIONSUCCESSFUL", "The action was successful.");
 define("_ADMIN", "Admin");
+
+define("_ARCHIVEMAINT", "Archive Maintentance");
+
 define("_USERACCOUNT", "Member Account");
 define("_PROFILE", "Member Profile");
 define("_FAVOR", "Favorites");
@@ -19,6 +24,9 @@ define("_PANELAUTOFAIL", "If a panel failed to install, please use the default d
 define("_PANELDATA", "Install Panel Data");
 define("_PANELDATAINFO", "This step will install the default configuration of panels for the admin area, user account area, top 10 lists
 			 and user profile page.	You may change these settings at any time using the panels admin interface in your admin area.");
+
+define("_PANELORDER", "Fix Panel Order");
+define("_HELP_PANELORDER", "This option will fix errors in the numbering of the panel order saved in the database.  This will <strong>not</strong> change the order of your panels only correct errors in the database numbering.");
 
 
 // define ("_ACTION", "Action");

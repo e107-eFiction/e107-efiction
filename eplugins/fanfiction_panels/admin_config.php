@@ -46,15 +46,13 @@ class fanfiction_panels_adminArea extends e_admin_dispatcher
 	protected $adminMenu = array(
 		//'main/prefs'		=> array('caption' => LAN_PREFS, 'perm' => 'P'),
 		'main/list'			=> array('caption' => LAN_MANAGE,   'perm' => 'P'),
-		'main/create'		=> array('caption' => _ADDNEWPANEL, 'perm' => 'P'), 
+		'main/create'		=> array('caption' => _ADDNEWPANEL, 'perm' => 'P'),
 		'main/div0'      => array('divider' => true),
 		//  'main/help'		=> array('caption'=> 'Help Page', 'perm' => 'P'),
 
 	);
 
-	protected $adminMenuAliases = array(
- 
-	);
+	protected $adminMenuAliases = array();
 
 	protected $menuTitle = 'Fanfiction Panels';
 
@@ -80,6 +78,10 @@ class fanfiction_panels_adminArea extends e_admin_dispatcher
 		$this->adminMenu['main/help'] = array(
 			'caption' => 'Help Page',
 			'perm' => 'P'
+		);
+		$this->adminMenu['main/maintenance'] = array(
+			'caption' => _PANELORDER,
+			'perm' => '0'
 		);
 	}
 }
@@ -227,21 +229,17 @@ class fanfiction_panels_ui extends e_admin_ui
 		$levels =   e107::getEfiction()->getUserLevels();
 
 		// Set drop-down values (if any). 
-		$this->fields['panel_level']['writeParms']['optArray'] = $levels; // Example Drop-down array. 
-		$this->fields['panel_type']['writeParms']['optArray'] = $paneltypes; // Example Drop-down array. 
+		$this->fields['panel_level']['writeParms']['optArray'] = $levels;
+		$this->fields['panel_type']['writeParms']['optArray'] = $paneltypes;
 
 		//	protected $listQry      	= "SELECT * FROM `#tableName` WHERE field != '' "; // Example Custom Query. LEFT JOINS allowed. Should be without any Order or Limit.
 		$action = $this->getAction();
 		if (array_key_exists($action, $paneltypes))
- 
 		{
-			 $this->listQry = "SELECT * FROM `#{$this->table}` WHERE panel_type = '{$action}' ";
- 
+			$this->listQry = "SELECT * FROM `#{$this->table}` WHERE panel_type = '{$action}' ";
 		}
- 
-
 	}
- 
+
 
 	// ------- Customize Create --------
 
@@ -252,7 +250,7 @@ class fanfiction_panels_ui extends e_admin_ui
 
 	public function afterCreate($new_data, $old_data, $id)
 	{
-		// do something
+		$this->updatePanelOrder();
 	}
 
 	public function onCreateError($new_data, $old_data)
@@ -306,47 +304,65 @@ class fanfiction_panels_ui extends e_admin_ui
 		return $text;
 	}
 
-	/*	
-		// optional - a custom page.  
-		public function customPage()
+
+	public function maintenancePage()
+	{
+		$this->addTitle(_ARCHIVEMAINT);
+		$frm = $this->getUI();
+
+		$text = _HELP_PANELORDER;
+
+		if ($this->getPosted('maint-panels')) // after form is submitted. 
 		{
-			if($this->getPosted('custom-submit')) // after form is submitted. 
-			{
-				e107::getMessage()->addSuccess('Changes made: '. $this->getPosted('example'));
-			}
-
-			$this->addTitle('My Custom Title');
-
-
-			$frm = $this->getUI();
-			$text = $frm->open('my-form', 'post');
-
-				$tab1 = "<table class='table table-bordered adminform'>
-					<colgroup>
-						<col class='col-label'>
-						<col class='col-control'>
-					</colgroup>
-					<tr>
-						<td>Label ".$frm->help('A help tip')."</td>
-						<td>".$frm->text('example', $this->getPosted('example'), 80, ['size'=>'xlarge'])."</td>
-					</tr>
-					</table>";
-
-			// Display Tab
-			$text .= $frm->tabs([
-				'general'   => ['caption'=>LAN_GENERAL, 'text' => $tab1],
-			]);
-
-			$text .= "<div class='buttons-bar text-center'>".$frm->button('custom-submit', 'submit', 'submit', LAN_CREATE)."</div>";
-			$text .= $frm->close();
-
-			return $text;
-			
+			$this->updatePanelOrder();
+			return e107::getMessage()->addSuccess(_ACTIONSUCCESSFUL)->render();	 
 		}
-			
-		
-		
-	*/
+		$text .= $frm->open('maint-panels', 'post');
+		$text .= "<div class='buttons-bar text-left'>" . $frm->button('maint-panels', 'submit', 'submit', _PANELORDER) . "</div>";
+		$text .= $frm->close();
+
+		return $text;
+	}
+
+	public function updatePanelOrder()
+	{
+
+		$ptypes_query = "SELECT panel_type FROM " . MPREFIX . "fanfiction_panels GROUP BY panel_type";
+
+		$ptypes = e107::getDb()->retrieve($ptypes_query, true);
+		foreach ($ptypes as $ptype)
+		{
+			if ($ptype['panel_type'] == "A")
+			{
+				for ($x = 0; $x < 5; $x++)
+				{
+					$count = 1;
+
+					$panels_query = "SELECT panel_name, panel_id FROM " . MPREFIX . "fanfiction_panels WHERE panel_hidden = '0'  AND panel_type = '" . $ptype['panel_type'] . "' AND panel_level = '$x' ORDER BY panel_level, panel_order";
+					$panels = e107::getDb()->retrieve($panels_query, true);
+
+					foreach ($panels as $p)
+					{
+						e107::getDb()->gen("UPDATE " . MPREFIX . "fanfiction_panels SET panel_order = '$count' WHERE panel_id = '" . $p['panel_id'] . "' LIMIT 1", true);
+						$count++;
+					}
+				}
+			}
+			else
+			{
+				$count = 1;
+				$panels_query = "SELECT panel_name, panel_id FROM " . MPREFIX . "fanfiction_panels WHERE panel_hidden = '0' AND panel_type = '" . $ptype['panel_type'] . "' AND panel_level = '$x' ORDER BY panel_level, panel_order";
+				$panels = e107::getDb()->retrieve($panels_query, true);
+
+				foreach ($panels as $p)
+				{
+					e107::getDb()->gen("UPDATE " . MPREFIX . "fanfiction_panels SET panel_order = '$count' WHERE panel_id = '" . $p['panel_id'] . "' LIMIT 1");
+					$count++;
+				}
+				$count++;
+			}
+		}
+	}
 }
 
 
