@@ -690,8 +690,8 @@ exit;
   link_name varchar(50) NOT NULL default '',
   link_text varchar(100) NOT NULL default '',
   link_url varchar(250) NOT NULL default '',
-  link_target tinyint NOT NULL DEFAULT '0',
-  link_access tinyint(4) NOT NULL default '0',
+  link_target tinyint(1) NOT NULL default '0',
+  link_access tinyint(1) NOT NULL default '0',
   PRIMARY KEY (link_id),
   KEY link_name (link_name)
   ) ENGINE=InnoDB;
