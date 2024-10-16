@@ -439,12 +439,8 @@ define ("_LOG_REGISTER", "%1\$s (%2\$d) registered from IP address %3\$s.");
 define ("_LOG_REVIEW", "%1\$s wrote '%2\$s' as a review for '%3\$s'.");
 define ("_LOG_EDIT_REVIEW", "<a href='viewuser.php?uid=%2\$d'>%1\$s</a> edited <a href='reviews.php?reviewid=%4\$d'>a review</a> for '%3\$s'.");
 
-// Report Types
+ 
 
-define ("_REPORT", "Report");
-define ("_MISSING", "Missing Information");
-define ("_RULESVIOLATION", "Violation of Rules");
-define ("_BUGREPORT", "Bug Report");
-define ("_REPORTTHIS", "Report This");
+
 
 ?>

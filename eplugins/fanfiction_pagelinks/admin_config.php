@@ -117,7 +117,7 @@ class fanfiction_pagelinks_ui extends e_admin_ui
 		'options'                 => array('title' => LAN_OPTIONS, 'type' => null, 'data' => null, 'width' => '10%', 'thclass' => 'center last', 'class' => 'center last', 'forced' => 'value', 'readParms' => [], 'writeParms' => [],),
 	);
 
-	protected $fieldpref = array('link_name');
+	protected $fieldpref = array('link_name', 'link_text', 'link_url', 'link_target', 'link_access' );
 
 
 	//	protected $preftabs        = array('General', 'Other' );

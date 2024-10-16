@@ -882,21 +882,6 @@
 			    <field name="link_owner"></field>
 			</item>
 			<item>
-				<field name="link_id">5</field>
-				<field name="link_name">Contact Us</field>
-				<field name="link_url">contact.php</field>
-				<field name="link_description"></field>
-				<field name="link_button"></field>
-				<field name="link_category">1</field>
-				<field name="link_order">5</field>
-				<field name="link_parent">0</field>
-				<field name="link_open">0</field>
-				<field name="link_class">0</field>
-				<field name="link_function"></field>
-				<field name="link_sefurl">index</field>
-			    <field name="link_owner">contact</field>
-			</item>
-			<item>
 				<field name="link_id">6</field>
 				<field name="link_name">News</field>
 				<field name="link_url">news.php</field>

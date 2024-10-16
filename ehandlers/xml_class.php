@@ -860,6 +860,7 @@ class xmlClass
 				$this->xmlFileContents = $xml;
 			}
 		}
+	
 		if ($this->xmlFileContents)
 		{
 	
@@ -1580,4 +1581,3 @@ class XMLParse
         return $res;
     }
 }
-

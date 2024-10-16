@@ -1,7 +1,6 @@
 <?php
 if (!defined('e107_INIT')) { exit; }
-
-
+ 
 class fanfiction_panels_dashboard // include plugin-folder in the name.
 {
 	var $title = "eFiction Admin Area" ; // dynamic title.
