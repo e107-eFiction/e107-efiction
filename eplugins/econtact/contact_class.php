@@ -15,7 +15,7 @@
  */
 
 
-class Contact
+class econtact
 {
 
 
@@ -43,31 +43,54 @@ class Contact
 	 */
 	public function setProperties()
 	{
-		$contactPrefs =  e107::pref('contact');
+		$contactPrefs =  e107::pref('econtact');
 
-		if (empty($contactPrefs['contact_pages'])  )
+		if (empty($contactPrefs))
 		{
-			e107::redirect(e107::url('home', ''));
+
+			$user = e107::getUser();
+
+			// Kontrola, či je používateľ prihlásený ako hlavný administrátor alebo admin pluginu
+			if ($user->isAdmin() || $user->checkAdminPerms('econtact'))
+			{
+
+				// Zobrazenie chybovej správy, ak ide o hlavného admina alebo plugin admina
+				e107::getMessage()->addError("Správa pre administrátor: skontrolujte nastavenie pluginu");
+				echo e107::getMessage()->render();  // Zobrazí správu na stránke
+
+				$contactPrefs['contact_pages']['activate']['contact'] = 1;
+				$contactPrefs['contact_pages']['activate']['report'] = 1;
+				$contactPrefs['contact_pages']['contactform']['contact'] = 0;
+				$contactPrefs['contact_pages']['contactform']['report'] = 0;
+				$contactPrefs['contact_pages']['contactinfo']['contact'] = 1;
+				$contactPrefs['contact_pages']['contactinfo']['report'] = 1;
+			}
+			else
+			{
+				// Presmerovanie na úvodnú stránku, ak nie je prihlásený admin
+				e107::redirect(e107::url('home', ''));
+			}
 		}
 		else
 		{
 			$contactPrefs['contact_pages'] = e107::unserialize($contactPrefs['contact_pages']);
 		}
- 
+
 		self::$contactPrefs  = $contactPrefs;
- 
 	}
 
 	public function setContactLayouts($page = "contact")
 	{
 		// Check if the specified page layout exists and is greater than zero
 		$layoutId = self::$contactPrefs['contact_pages']['themelayout'][$page] ?? null;
-
-		if ($layoutId > 0)
+ 
+		if (!empty($layoutId))
 		{
 			// Define the layout constant if a valid layout ID is found
 			define('THEME_LAYOUT', $layoutId);
 		}
+		var_dump(THEME_LAYOUT);
+
 	}
 
 	public function setRedirection($page = "contact")
@@ -104,8 +127,8 @@ class Contact
 		}
 		else
 		{
-			$CONTACT_FORM = e107::getTemplate('contact', $page, 'form');
-			$contact_shortcodes = e107::getScBatch('form', 'contact', false);
+			$CONTACT_FORM = e107::getTemplate('econtact', $page, 'form');
+			$contact_shortcodes = e107::getScBatch('form', 'econtact', false);
 			$contact_shortcodes->wrapper($page . '/form');
 
 			$text = e107::getParser()->parseTemplate($CONTACT_FORM, true, $contact_shortcodes);
@@ -139,9 +162,8 @@ class Contact
 		}
 		else
 		{
-			$CONTACT_INFO = e107::getTemplate('contact', 'contact_info', 'default');
- 
-			$contact_shortcodes = e107::getScBatch('form', 'contact', false);
+			$CONTACT_INFO = e107::getTemplate('econtact', 'contact', 'info');
+			$contact_shortcodes = e107::getScBatch('form', 'econtact', false);
 			$contact_shortcodes->wrapper('contact/info');
 
 			$text = e107::getParser()->parseTemplate($CONTACT_INFO, true, $contact_shortcodes);
@@ -166,8 +188,8 @@ class Contact
 	{
 		$LAYOUT = '{---CONTACT-INFO---} {---CONTACT-FORM---}  ';
 		$layout_key = self::$contactPrefs['contact_pages']['contactlayout'][$page];
-		$layout_key = varset($layout_key, 'default');
-		$LAYOUT = e107::getTemplate('contact', 'contact_layout', $layout_key);
+
+		$LAYOUT = e107::getTemplate('econtact', 'contact_layout', $layout_key);
 
 		return $LAYOUT;
 	}
