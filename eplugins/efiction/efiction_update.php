@@ -282,6 +282,24 @@ function step2()
 
     ";
 
+    if (!e107::isInstalled('efiction'))
+    {
+        $mes->addError("efiction is not installed");
+    }
+    else
+    {
+        $mes->addSuccess("efiction is  installed");
+    }
+
+    if (!e107::isInstalled('fanfiction_settings'))
+    {
+        $mes->addError("fanfiction_settings is not installed");
+    }
+    else
+    {
+        $mes->addSuccess("fanfiction_pagelinks is  installed");
+    }
+
     if (!e107::isInstalled('fanfiction_pagelinks'))  {
         $mes->addError("fanfiction_pagelinks is not installed");
     }

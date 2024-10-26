@@ -1,16 +1,17 @@
 <?php
 
-// Generated e107 Plugin Admin Area 
+
 
 require_once('../../class2.php');
+
 if (!getperms('P'))
 {
 	e107::redirect('admin');
 	exit;
 }
-//e107::addHandler('e_efiction', "{e_PLUGIN}efiction/efiction_handler.php");
 
-e107::lan('fanfiction_panels', true);
+e107::lan('efiction', "en");
+e107::lan('efiction', "en_admin");
 
 $code = " 
 $(document).ready(function() {
@@ -191,8 +192,8 @@ class fanfiction_panels_ui extends e_admin_ui
 			'inline' => true,
 			'validate' => true,
 			'help' => '',
-			'readParms' => ['enabled' => LAN_VISIBLE, 'disabled' => LAN_HIDDEN],
-			'writeParms' => ['enabled' => LAN_VISIBLE, 'disabled' => LAN_HIDDEN],
+			'readParms' => ['enabled' => _VISIBLE, 'disabled' => _HIDDEN],
+			'writeParms' => ['enabled' => _VISIBLE, 'disabled' => _HIDDEN],
 			'class' => 'left',
 			'thclass' => 'left',
 		),
@@ -280,7 +281,7 @@ class fanfiction_panels_ui extends e_admin_ui
 	public function renderHelp()
 	{
 		$caption = LAN_HELP;
-		$text = LAN_HELP_PANELS;
+		$text = _HELP_PANELS;
 
 		return array('caption' => $caption, 'text' => $text);
 	}

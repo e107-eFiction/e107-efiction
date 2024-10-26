@@ -1,4 +1,8 @@
 <?php
+
+
+
+
 /* LAN FILE FOR efiction 4 */
 
 define ("_ACTION", "Action");
@@ -264,6 +268,7 @@ define ("_VIEWALL", "View All");
 define ("_VIEWLOG", "View Action Log");
 define ("_VIEWMYCATS", "View My Categories");
 define ("_VIEWSUBMITTED", "View Submissions");
+define ("_VISIBLE", "Visible");
 define ("_VERSION", "Version");
 define ("_VERSIONCHECK", "Version Check");
 define ("_VERSIONNOTALLOWED", "Version check will not run on your server. To receive email updates, you may register for our forums and subscribe to <a href=\"http://www.efiction.org/forums/index.php?board=37.0\">this forum</a>.");

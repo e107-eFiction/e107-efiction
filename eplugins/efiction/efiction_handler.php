@@ -12,6 +12,9 @@ if (!defined('e107_INIT'))
 {
     exit;
 }
+e107::lan('efiction', "en");
+e107::lan('efiction', "en_admin");
+
 if (!class_exists('e_efiction'))
 {
     class e_efiction
@@ -163,40 +166,40 @@ if (!class_exists('e_efiction'))
         function replace_efiction_settings($settings)
         {
 
-                $settings['submissionsoff'] =  e107::pref('efiction', 'submissionsoff');
-                $settings['autovalidate'] =  e107::pref('efiction', 'autovalidate');
-                $settings['coauthallowed'] =  e107::pref('efiction', 'coauthallowed');
-                $settings['roundrobins'] =  e107::pref('efiction', 'roundrobins');
-                $settings['allowseries'] =  e107::pref('efiction', 'allowseries');
-                $settings['imageupload'] =  e107::pref('efiction', 'imageupload');
-                $settings['imageheight'] =  e107::pref('efiction', 'imageheight');
-                $settings['imagewidth'] =  e107::pref('efiction', 'imagewidth');
-                $settings['store'] =  e107::pref('efiction', 'store');
-                $settings['storiespath'] =  e107::pref('efiction', 'storiespath');
-                $settings['minwords'] =  e107::pref('efiction', 'minwords');
-                $settings['maxwords'] =  e107::pref('efiction', 'maxwords');
-                $settings['tinyMCE'] =  e107::pref('efiction', 'tinyMCE');
-                $settings['allowed_tags'] =  e107::pref('efiction', 'allowed_tags');
-                $settings['favorites'] =  e107::pref('efiction', 'favorites');
-                $settings['multiplecats'] =  e107::pref('efiction', 'multiplecats');
-                $settings['dateformat'] =  e107::pref('efiction', 'dateformat');
-                $settings['timeformat'] =  e107::pref('efiction', 'timeformat');
-                $settings['extendcats'] =  e107::pref('efiction', 'extendcats');
-                $settings['displaycolumns'] =  e107::pref('efiction', 'displaycolumns');
-                $settings['itemsperpage'] =  e107::pref('efiction', 'itemsperpage'); 
-                $settings['recentdays'] =  e107::pref('efiction', 'recentdays');
-                $settings['defaultsort'] =  e107::pref('efiction', 'defaultsort');
-                $settings['displayindex'] =  e107::pref('efiction', 'displayindex');
-                $settings['displayprofile'] =  e107::pref('efiction', 'displayprofile');
-                $settings['reviewsallowed'] =  e107::pref('efiction', 'reviewsallowed');
-                $settings['anonreviews'] =  e107::pref('efiction', 'anonreviews');
-                $settings['revdelete'] =  e107::pref('efiction', 'revdelete');
-                $settings['ratings'] =  e107::pref('efiction', 'ratings');
-                $settings['rateonly'] =  e107::pref('efiction', 'rateonly');
-                $settings['alertson'] =  e107::pref('efiction', 'alertson');
-                $settings['disablepopups'] =  e107::pref('efiction', 'disablepopups');
-                $settings['agestatement'] =  e107::pref('efiction', 'agestatement');
-                $settings['pwdsetting'] =  e107::pref('efiction', 'pwdsetting');
+                $settings['submissionsoff'] =  e107::pref('fanfiction_settings', 'submissionsoff');
+                $settings['autovalidate'] =  e107::pref('fanfiction_settings', 'autovalidate');
+                $settings['coauthallowed'] =  e107::pref('fanfiction_settings', 'coauthallowed');
+                $settings['roundrobins'] =  e107::pref('fanfiction_settings', 'roundrobins');
+                $settings['allowseries'] =  e107::pref('fanfiction_settings', 'allowseries');
+                $settings['imageupload'] =  e107::pref('fanfiction_settings', 'imageupload');
+                $settings['imageheight'] =  e107::pref('fanfiction_settings', 'imageheight');
+                $settings['imagewidth'] =  e107::pref('fanfiction_settings', 'imagewidth');
+                $settings['store'] =  e107::pref('fanfiction_settings', 'store');
+                $settings['storiespath'] =  e107::pref('fanfiction_settings', 'storiespath');
+                $settings['minwords'] =  e107::pref('fanfiction_settings', 'minwords');
+                $settings['maxwords'] =  e107::pref('fanfiction_settings', 'maxwords');
+                $settings['tinyMCE'] =  e107::pref('fanfiction_settings', 'tinyMCE');
+                $settings['allowed_tags'] =  e107::pref('fanfiction_settings', 'allowed_tags');
+                $settings['favorites'] =  e107::pref('fanfiction_settings', 'favorites');
+                $settings['multiplecats'] =  e107::pref('fanfiction_settings', 'multiplecats');
+                $settings['dateformat'] =  e107::pref('fanfiction_settings', 'dateformat');
+                $settings['timeformat'] =  e107::pref('fanfiction_settings', 'timeformat');
+                $settings['extendcats'] =  e107::pref('fanfiction_settings', 'extendcats');
+                $settings['displaycolumns'] =  e107::pref('fanfiction_settings', 'displaycolumns');
+                $settings['itemsperpage'] =  e107::pref('fanfiction_settings', 'itemsperpage'); 
+                $settings['recentdays'] =  e107::pref('fanfiction_settings', 'recentdays');
+                $settings['defaultsort'] =  e107::pref('fanfiction_settings', 'defaultsort');
+                $settings['displayindex'] =  e107::pref('fanfiction_settings', 'displayindex');
+                $settings['displayprofile'] =  e107::pref('fanfiction_settings', 'displayprofile');
+                $settings['reviewsallowed'] =  e107::pref('fanfiction_settings', 'reviewsallowed');
+                $settings['anonreviews'] =  e107::pref('fanfiction_settings', 'anonreviews');
+                $settings['revdelete'] =  e107::pref('fanfiction_settings', 'revdelete');
+                $settings['ratings'] =  e107::pref('fanfiction_settings', 'ratings');
+                $settings['rateonly'] =  e107::pref('fanfiction_settings', 'rateonly');
+                $settings['alertson'] =  e107::pref('fanfiction_settings', 'alertson');
+                $settings['disablepopups'] =  e107::pref('fanfiction_settings', 'disablepopups');
+                $settings['agestatement'] =  e107::pref('fanfiction_settings', 'agestatement');
+                $settings['pwdsetting'] =  e107::pref('fanfiction_settings', 'pwdsetting');
 
             return $settings;
         }
@@ -206,11 +209,11 @@ if (!class_exists('e_efiction'))
         {
             $sitekey = e107::getInstance()->getSitePath();
             $pref =  e107::getPref();
-            $settings['newscomments'] =  e107::pref('efiction', 'newscomments');
-            $settings['logging'] =  e107::pref('efiction', 'logging');
-            $settings['maintenance'] =  e107::pref('efiction', 'maintenance');
-            $settings['debug'] =  e107::pref('efiction', 'debug');
-            $settings['captcha'] =  e107::pref('efiction', 'captcha');
+            $settings['newscomments'] =  e107::pref('fanfiction_settings', 'newscomments');
+            $settings['logging'] =  e107::pref('fanfiction_settings', 'logging');
+            $settings['maintenance'] =  e107::pref('fanfiction_settings', 'maintenance');
+            $settings['debug'] =  e107::pref('fanfiction_settings', 'debug');
+            $settings['captcha'] =  e107::pref('fanfiction_settings', 'captcha');
             unset($settings['newscomments']);
             unset($settings['logging']);
             unset($settings['maintenance']);
