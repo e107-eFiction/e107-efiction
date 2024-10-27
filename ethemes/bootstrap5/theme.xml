@@ -6,6 +6,10 @@
 	<category>generic</category>
 	<plugins>
 		<plugin name='fanfiction_panels' url='core' />
+		<plugin name='fanfiction_settings' url='core' />
+		<plugin name='fanfiction_pagelinks' url='core' />
+		<plugin name='econtact' url='core' />
+		<plugin name='efiction' url='core' />
 	</plugins>
 	<keywords>
 		<word>bootstrap</word>

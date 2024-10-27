@@ -83,13 +83,13 @@ if (!$upgradeNeeded)
     require(e_ADMIN . 'footer.php');
     exit;
 }
- 
-if (isset($_GET) && isset($_GET['step'])) 
+
+if (isset($_GET) && isset($_GET['step']))
 {
     $step  =  $_GET['step'];
- 
+
     $f->updateInfo['currentStep'] =
-    $step;
+        $step;
     $f->setUpdateInfo();
 }
 
@@ -191,76 +191,46 @@ function step1()
 {
     $mes = e107::getMessage();
     $ns = e107::getRender();
+    $stepCaption = 'Step 1: Some settings from the fanfiction_settings table are now core site preferences.';
 
-    $stepCaption = 'Step 1: Some settings from fanfiction_settings table are now core site preferences ';
-
+    // Instructional text
     $text = "
-    This step only compare values from your fanfiction_settings table with preferences for this installation <br /> 
-    <br />
-    You should set those prefences in the related area of e107 Settings
-    <br /> 
-    Be sure that hash key in e107_config file is the same as your sitekey in fanfiction_settings table.
-    <br /> <br /> 
-
+        This step compares values from your <strong>fanfiction_settings</strong> table with core preferences for this installation. <br /> 
+        You should set these preferences in the corresponding section of e107 Settings. <br /> 
+        Ensure that the hash key in the <strong>e107_config</strong> file matches your <strong>sitekey</strong> in the fanfiction_settings table. <br /><br />
+        If the Fanfiction Settings column is empty, this means the <strong>fanfiction_settings</strong> table does not exist, which is expected for e107.
+        <br /><br />
     ";
 
-    /** Display fanficton_settings to plugin efiction prefs  **/
+    // Retrieve site-specific settings
     $sitekey = e107::getInstance()->getSitePath();
-    $settingsresults = e107::getDb()->retrieve("SELECT * FROM #fanfiction_settings WHERE sitekey = '" . $sitekey . "'");
+    $settingsFFTable = e107::getDb()->retrieve("SELECT * FROM #fanfiction_settings WHERE sitekey = '" . $sitekey . "'");
 
-    //CORE SETTINGS
     $settingsCore = array();
-    $settingsCore =  e107::getEfiction(true)->replace_core_settings($settingsCore);
+    // Get core settings from efiction plugin
+    $settingsCore = e107::getEfiction(true)->replace_core_settings($settingsCore);
 
-    //if table exists, fill preferences
-    if ($settingsCore)
+    // Only proceed if core settings are available
+    if (!empty($settingsCore))
     {
+        // Generate comparison table
+        $text .= compare_table($settingsCore, $settingsFFTable, 'Related Core e107 Value', 'Fanfiction Settings');
 
-        // Start HTML table
-        $text .= "<table class='table table-bordered adminform'>";
-        $text .= "<tr><th>Key</th><th>Related Core e107 Value</th><th>Fanfiction Settings</th></tr>";
-
-        foreach ($settingsCore as $key => $firstValue)
-        {
-            // Check if the key exists in the first array
-            if (isset($settingsresults[$key]))
-            {
-                $secondValue = $settingsresults[$key];
-                $style = "";
-                if ($firstValue != $secondValue) $style = "class='alert-warning' ";
-                switch ($key)
-                {
-                    case "allowed_tags":
-                        $firstValue = print_a($firstValue, true);
-                        $secondValue = print_a($secondValue, true);
-                        break;
-                    case "smtp_password":
-                    case "smtp_username":
-                    case "smtp_host":
-                        $firstValue = "*******";
-                        $secondValue =   "*******";
-                        break;
-                }
-
-                $text .= "<tr {$style}>
-                <td>{$key}</td>
-                <td>{$firstValue}</td>
-                <td>{$secondValue}</td>
-              </tr>";
-            }
-        }
-
-        // Close HTML table
-        $text .= "</table>";
-
-
+        // Proceed button for next step
         $text .= "<form method='post' action='" . e_SELF . "?step=2'>
             <input class='btn btn-success' type='submit' name='nextStep[2]' value='Proceed to step 2' />
-            </form>";
-
-        $ns->tablerender($stepCaption, $mes->render() . $text);
+        </form>";
     }
+    else
+    {
+        // Display error message if core settings are missing
+        $mes->addError("Core settings could not be retrieved. Please verify your e107 configuration.");
+    }
+
+    // Render the content
+    $ns->tablerender($stepCaption, $mes->render() . $text);
 }
+
 
 function step2()
 {
@@ -273,110 +243,53 @@ function step2()
     $stepCaption = 'Step 2: Some settings from fanfiction_settings table are now single plugin preferences ';
 
     $text = "
-    This step only compare values from your fanfiction_settings table with plugin preferences for this installation <br /> 
-    <br />
-    You should set those prefences in the related area of those plugins
-    <br /> 
-    Be sure that hash key in e107_config file is the same as your sitekey in fanfiction_settings table.
-    <br /> <br /> 
-
+    This step compares values from your <strong>fanfiction_settings</strong> table with plugin preferences for this installation.<br /> 
+    Please set these preferences in the corresponding plugin settings section.<br /> 
+    Ensure that the hash key in the <strong>e107_config</strong> file matches the <strong>sitekey</strong> in the fanfiction_settings table.<br /><br />
+    - If the <strong>Fanfiction Settings</strong> column is empty, it means the fanfiction_settings table does not exist, which is expected in some configurations.<br />
+    - If the first column is empty, the plugin preferences have not been saved yet.<br /><br />
     ";
 
-    if (!e107::isInstalled('efiction'))
+
+    // Array of plugins to check
+    $plugins = [
+        'efiction',
+        'fanfiction_settings',
+        'fanfiction_pagelinks',
+        'fanfiction_panels',
+        'fanfiction_blocks',
+        'fanfiction_messages',
+        'econtact'
+    ];
+
+    // Loop through each plugin and check if installed
+    foreach ($plugins as $plugin)
     {
-        $mes->addError("efiction is not installed");
-    }
-    else
-    {
-        $mes->addSuccess("efiction is  installed");
+        if (!e107::isInstalled($plugin))
+        {
+            $mes->addError("$plugin is not installed");
+        }
+        else
+        {
+            $mes->addSuccess("$plugin is installed");
+        }
     }
 
-    if (!e107::isInstalled('fanfiction_settings'))
-    {
-        $mes->addError("fanfiction_settings is not installed");
-    }
-    else
-    {
-        $mes->addSuccess("fanfiction_pagelinks is  installed");
-    }
-
-    if (!e107::isInstalled('fanfiction_pagelinks'))  {
-        $mes->addError("fanfiction_pagelinks is not installed");
-    }
-    else {
-        $mes->addSuccess("fanfiction_pagelinks is  installed");
-    }
-
-    if (!e107::isInstalled('fanfiction_pagelinks'))
-    {
-        $mes->addError("fanfiction_panels is not installed");
-    }
-    else
-    {
-        $mes->addSuccess("fanfiction_panels is  installed");
-    }
-
-    if (!e107::isInstalled('fanfiction_blocks'))
-    {
-        $mes->addError("fanfiction_blocks is not installed");
-    }
-    else
-    {
-        $mes->addSuccess("fanfiction_blocks is  installed");
-    }
-
-    if (!e107::isInstalled('fanfiction_messages'))
-    {
-        $mes->addError("fanfiction_messages is not installed");
-    }
-    else
-    {
-        $mes->addSuccess("fanfiction_messages is  installed");
-    }
-
-    if (!e107::isInstalled('econtact'))
-    {
-        $mes->addError("econtact is not installed");
-    }
-    else
-    {
-        $mes->addSuccess("econtact is  installed");
-    }
 
     /** Display fanficton_settings to plugin efiction prefs  **/
     $sitekey = e107::getInstance()->getSitePath();
-    $settingsresults = e107::getDb()->retrieve("SELECT * FROM #fanfiction_settings WHERE sitekey = '" . $sitekey . "'");
-    
+    $settingsFFTable = e107::getDb()->retrieve("SELECT * FROM #fanfiction_settings WHERE sitekey = '" . $sitekey . "'");
+
     //CORE SETTINGS
-    $settingsCore = array();
-    $settingsCore =  e107::getEfiction()->replace_plugins_settings($settingsCore);
- 
+    $settingsPlugins = array();
+    $settingsPlugins =  e107::getEfiction()->replace_plugins_settings($settingsPlugins);
+
+
     //if table exists, fill preferences
-    if ($settingsCore)
+    if ($settingsPlugins)
     {
 
-        // Start HTML table
-        $text .= "<table class='table table-bordered adminform'>";
-        $text .= "<tr><th>Key</th><th>Related Plugin Value</th><th>Fanfiction Settings</th></tr>";
-
-        // Loop through the second array keys and compare with the first array
-        foreach ($settingsCore as $key => $firstValue)
-        {
-            // Check if the key exists in the first array
-            if (isset($settingsresults[$key]))
-            {
-                $secondValue = $settingsresults[$key];
-                $text .= "<tr>
-                <td>{$key}</td>
-                <td>{$firstValue}</td>
-                <td>{$secondValue}</td>
-              </tr>";
-            }
-        }
-
-        // Close HTML table
-        $text .= "</table>";
-
+        $text .= compare_table($settingsPlugins, $settingsFFTable  = NULL,  'Related Plugin Value',  'Fanfiction Settings');
 
         $text .= "<form method='post' action='" . e_SELF . "?step=2'>
             <input class='btn btn-success' type='submit' name='nextStep[2]' value='Proceed to step 2' />
@@ -396,104 +309,63 @@ function step3()
 
     /** Convert fanficton_settings to plugin efiction prefs  **/
     $sitekey = e107::getInstance()->getSitePath();
-    $settingsresults = e107::getDb()->retrieve("SELECT * FROM #fanfiction_settings WHERE sitekey = '" . $sitekey . "'");
+    $settingsFFTable = e107::getDb()->retrieve("SELECT * FROM #fanfiction_settings WHERE sitekey = '" . $sitekey . "'");
     $settingsCore = array();
     $settingsCore =  e107::getEfiction()->replace_efiction_settings($settingsCore);
- 
-    $settingsresults = array_intersect_key($settingsresults, $settingsCore);
+
+    $settingsFFTable = array_intersect_key($settingsFFTable, $settingsCore);
 
     if (!isset($_POST['move_settings']))
     {
         $text = "
-		This step will move the fanficton_settings data to efiction plugin preferences. <br />
-		Be sure that you backuped your fanfiction_settings table to be able repeat this step. <br />
-		<br />
-		This will not touch your eficton data any way. You can always set those preferences manually And skip this step.
-		<br /> 
-        Be sure that hash key in e107_config file is the same as your sitekey in fanfiction_settings table.
-		<br /> <br /> 
-
-		";
-
-        
-
+    This step will transfer data from the <strong>fanfiction_settings</strong> table to the <strong>efiction</strong> plugin preferences.<br /> 
+    <strong>Important:</strong> Please back up your <strong>fanfiction_settings</strong> table before proceeding, so you can repeat this step if needed.<br /> 
+    This process will not modify any existing <strong>efiction</strong> data. You may also choose to manually set these preferences and skip this step.<br /> 
+    Ensure that the hash key in the <strong>e107_config</strong> file matches the <strong>sitekey</strong> in the fanfiction_settings table.<br /><br />
+    - If the <strong>Fanfiction Settings</strong> column is empty, the fanfiction_settings table does not exist, which is expected for e107.<br />
+    - If the first column is empty, you have not saved the plugin preferences yet.<br /> <br />
+        ";
  
         //if table exists, fill preferences
         if ($settingsCore)
         {
 
-            // Start HTML table
-            $text .= "<table class='table table-bordered adminform'>";
-            $text .= "<tr><th>Key</th><th>Related Plugin Value</th><th>Fanfiction Settings</th></tr>";
+            $text .= compare_table($settingsCore, $settingsFFTable  = NULL,  'Related Plugin Value',  'Fanfiction Settings');
 
-            // Loop through the second array keys and compare with the first array
-            foreach ($settingsCore as $key => $firstValue)
+            if (empty(array_diff_assoc($settingsCore, $settingsFFTable)) && empty(array_diff_assoc($settingsCore, $settingsFFTable)))
             {
-                // Check if the key exists in the first array
-                if (isset($settingsresults[$key]))
-                {
-                    $secondValue = $settingsresults[$key];
-                    $style = "";
-                    if ($firstValue != $secondValue) $style = "class='alert-warning' ";
-                    switch ($key)
-                    {
-                        case "allowed_tags":
-                            $firstValue = print_a($firstValue, true);
-                            $secondValue = print_a($secondValue, true);
-                            break;
-                        case "smtp_password":
-                        case "smtp_username":
-                        case "smtp_host":
-                            $firstValue = "*******";
-                            $secondValue =   "*******";
-                            break;
-                    }
-
-                    $text .= "<tr {$style}>
-                <td>{$key}</td>
-                <td>{$firstValue}</td>
-                <td>{$secondValue}</td>
-              </tr>";
-                }
-            }
-
-            // Close HTML table
-            $text .= "</table>";
-
-            if (empty(array_diff_assoc($settingsCore, $settingsresults)) && empty(array_diff_assoc($settingsCore, $settingsresults)))
-            {
-           
+                if ($settingsFFTable) $text .= "Values are the same </br>";
+                
                 $text .= "
-                Values are the same </br>
+                
                 <form method='post' action='" . e_SELF . "?step=4'>
                 <input class='btn btn-success' type='submit' name='nextStep[4]' value='Proceed to step 4' />
                 </form>";
-
             }
-            else {
-                $text .=
-                    "<form method='post'>
-            <input class='btn btn-success' data-loading-text='Please wait...' type='submit' name='move_settings' value='Proceed with settings move' />
-            </form>";
+            else
+            {
+                if ($settingsFFTable)
+                {
+                    $text .=
+                        "<form method='post'>
+                        <input class='btn btn-success' data-loading-text='Please wait...' type='submit' name='move_settings' value='Proceed with settings move' />
+                        </form>";
+                }
             }
- 
- 
         }
-        $ns->tablerender($stepCaption, $mes->render(). $text);
+        $ns->tablerender($stepCaption, $mes->render() . $text);
 
         return;
     }
-    
+
     $text = "";
- 
+
 
     //if table exists, fill preferences
-    if ($settingsresults)
+    if ($settingsFFTable)
     {
- 
-
         // Filter $firstArray to keep only the keys that exist in $settings
-        $filteredArray = array_intersect_key($settingsresults, $settingsCore);
+        $filteredArray = array_intersect_key($settingsFFTable, $settingsCore);
 
         $fconf = e107::getPlugConfig('efiction', '', false);
         $efiction_prefs = array();
@@ -521,82 +393,94 @@ function step4()
 
     $stepCaption = 'Step 4: Last check before replacing efiction files and using e107 settings handler';
 
- 
-    /** Display fanficton_settings to plugin efiction prefs  **/
+
+    /** Fanficton_settings  table**/
     $sitekey = e107::getInstance()->getSitePath();
-    $settingsresults = e107::getDb()->retrieve("SELECT * FROM #fanfiction_settings WHERE sitekey = '" . $sitekey . "'");
-    $settingsresults = e107::getEfiction()->notsolved_settings($settingsresults);
-    //CORE SETTINGS
+    $settingsFFTable = e107::getDb()->retrieve("SELECT * FROM #fanfiction_settings WHERE sitekey = '" . $sitekey . "'");
+
+    /** Display fanficton_settings that are known and not supported yet  **/
+    $settingsUnSupported = e107::getEfiction()->notsolved_settings($settingsFFTable);
+
+    /** supported settings  **/
     $settingsCore = array();
     $settingsCore =  e107::getEfiction()->getSettings();
     $text = "";
-    
+
+    $text .= "<h6>Keys only in fanfiction_settings table (not updated yet):</h6>";
     //if table exists, fill preferences
-    if ($settingsCore)
+    if ($settingsCore && !empty($settingsFFTable))
     {
- 
+        
 
         // Find keys that are in one array but not the other
-        $keysOnlyInFirst = array_diff_key($settingsCore, $settingsresults);
- 
-        echo "<h3>Keys only in fanfiction_settings table (not updated yet):</h3>";
-        if (!empty($keysOnlyInFirst))
+        $keysOnlyInFirst = array_diff_key($settingsCore, $settingsFFTable);
+
+        
+        if (!empty($keysOnlyInFirst) && !in_array($keysOnlyInFirst, $settingsUnSupported))
         {
-            echo "<pre>";
-            print_r($keysOnlyInFirst);
-            echo "</pre>";
+            $text .= "<pre>";
+            $text .=  print_r($keysOnlyInFirst, true);
+            $text .= "</pre>";
         }
         else
         {
             echo "No unique keys in the fanfiction_settings table.\n";
         }
+    }
+    $text .= "<h6>Supported settings:</h6>";
  
-        // Start HTML table
-        $text .= "<table class='table table-bordered adminform'>";
-        $text .= "<tr><th>Key</th><th>Related Core e107 Value</th><th>Fanfiction Settings</th></tr>";
+         $text .= compare_table($settingsCore, $settingsFFTable  = NULL,  'Related e107 Value',  'Fanfiction Settings');
 
-        // Loop through the second array keys and compare with the first array
-        foreach ($settingsCore as $key => $firstValue)
-        {
-            // Check if the key exists in the first array
-            if (isset($settingsresults[$key]))
-            {
-                $secondValue = $settingsresults[$key];
-                $style = "";
-                if ($firstValue != $secondValue) $style = "class='alert-warning' ";
-                switch ($key)
-                {
-                    case "allowed_tags":
-                        $firstValue = print_a($firstValue, true);
-                        $secondValue = print_a($secondValue, true);
-                        break;
-                    case "smtp_password":
-                    case "smtp_username":
-                    case "smtp_host":  
-                        $firstValue = "*******";
-                        $secondValue =   "*******";
-                        break;    
-                }
-                
-                $text .= "<tr {$style}>
-                <td>{$key}</td>
-                <td>{$firstValue}</td>
-                <td>{$secondValue}</td>
-              </tr>";
-            }
-        }
+    $text .= "<h6>Not Supported settings yet:</h6>";
 
-        // Close HTML table
-        $text .= "</table>";
-
-
-        $text .= "<form method='post' action='" . e_SELF . "?step=2'>
-            <input class='btn btn-success' type='submit' name='nextStep[2]' value='Proceed to step 2' />
+        $text .= compare_table($settingsUnSupported, $settingsCore  = NULL,  'Related e107 Value',  'Fanfiction Settings');
+ 
+        $text .= "<form method='post' action='" . e_SELF . "?step=1'>
+            <input class='btn btn-success' type='submit' name='nextStep[1]' value='Proceed to step 1' />
             </form>";
 
         $ns->tablerender($stepCaption, $mes->render() . $text);
-    }
+   
 }
+
+function compare_table($firstArray = NULL, $secondArray = NULL, $firstCaption = '', $secondCaption = '')
+{
+    // Sensitive keys to mask
+    $sensitiveKeys = ['smtp_password', 'smtp_username', 'smtp_host'];
+    $text = "<table class='table table-bordered adminform'>";
+    $text .= "<tr><th>Key</th><th>{$firstCaption}</th><th>{$secondCaption}</th></tr>";
+
+    foreach ($firstArray as $key => $firstValue)
+    {
+        $secondValue = $secondArray[$key] ?? '';
+
+        // Mask sensitive data only if the values are not empty
+        if (in_array($key, $sensitiveKeys))
+        {
+            $firstValue = !empty($firstValue) ? "*******" : $firstValue;
+            $secondValue = !empty($secondValue) ? "*******" : $secondValue;
+        }
+        elseif ($key === "allowed_tags")
+        {
+            // Handle 'allowed_tags' formatting
+            $firstValue = !empty($firstValue) ? print_a($firstValue, true) : $firstValue;
+            $secondValue = !empty($secondValue) ? print_a($secondValue, true) : $secondValue;
+        }
+
+        // Highlight rows with differences
+        $style = ($firstValue !== $secondValue) ? "class='alert-warning'" : "";
+
+        $text .= "<tr {$style}>
+            <td>{$key}</td>
+            <td>{$firstValue}</td>
+            <td>{$secondValue}</td>
+        </tr>";
+    }
+
+    $text .= "</table>";
+    return $text;
+}
+
 
 
 function efiction_update_adminmenu()

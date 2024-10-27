@@ -24,6 +24,7 @@ if (!class_exists('e_efiction'))
         public $panels;
         public $pagelinks;
         public $settings;
+        public $messages;
 
         /**
          * @param $force
@@ -64,13 +65,19 @@ if (!class_exists('e_efiction'))
                 //pagelinks data
                 $pagelinks = e107::getDb()->retrieve('fanfiction_pagelinks', "*", true, true);
                 $this->efiction['pagelinks'] = $this->upgrade_pagelinks($pagelinks);
+
+                //messages data
+                $messages = e107::getDb()->retrieve('fanfiction_messages', "*", null, true, 'message_name');
+                $this->efiction['messages'] = $this->upgrade_messages($messages);
+
  
                 $ecache->set_sys('nomd5_efiction', e107::serialize($this->efiction, false), $force);
             }
 
 
             //loading from cache failed   
-            if (!isset($this->efiction['panels']) or !isset($this->efiction['pagelinks']) or !isset($this->efiction['settings']))
+            if (!isset($this->efiction['panels']) or !isset($this->efiction['pagelinks']) or !isset($this->efiction['settings'])
+                or !isset($this->efiction['messages']))
             {
                 //panels data
                 $paneltypes = array("A" => _ADMIN, "U" => _USERACCOUNT, "P" => _PROFILE, "F" => _FAVOR, "S" => _SUBMISSIONS, "B" => _BROWSE, "L" => _10LISTS);
@@ -82,7 +89,6 @@ if (!class_exists('e_efiction'))
                 //settings
                 $settings = e107::getDb()->retrieve('fanfiction_settings', "*", null, true);
 
-               
                 $this->efiction['settings'] = $this->upgrade_settings($settings);
 
                 //pagelinks data
@@ -93,12 +99,20 @@ if (!class_exists('e_efiction'))
 
                 $this->efiction['panels'] = $this->upgrade_panels($panels);
 
+                $messages = e107::getDb()->retrieve('fanfiction_messages', "*", null, true, 'message_name');
+
+                $this->efiction['messages'] = $this->upgrade_messages($messages);
 
                 $ecache->set_sys('nomd5_efiction', e107::serialize($this->efiction, false), true);
             }
         }
 
 
+        function upgrade_messages($messages)
+        {
+            
+            return $messages;
+        }
 
         function upgrade_panels($panels)
         {
@@ -149,7 +163,7 @@ if (!class_exists('e_efiction'))
             $settings['smtp_host'] =  $pref['smtp_server'];
             $settings['smtp_username'] =  $pref['smtp_username'];
             $settings['smtp_password'] =  $pref['smtp_password'];
-
+ 
             return $settings;
      
         }
@@ -214,18 +228,18 @@ if (!class_exists('e_efiction'))
             $settings['maintenance'] =  e107::pref('fanfiction_settings', 'maintenance');
             $settings['debug'] =  e107::pref('fanfiction_settings', 'debug');
             $settings['captcha'] =  e107::pref('fanfiction_settings', 'captcha');
-            unset($settings['newscomments']);
-            unset($settings['logging']);
-            unset($settings['maintenance']);
-            unset($settings['debug']);
-            unset($settings['captcha']);
-            unset($settings['version']);
-            unset($settings['words']);
-            unset($settings['anonchallenges']);
-            unset($settings['anonrecs']);
-            unset($settings['rectarget']);
-            unset($settings['autovalrecs']);
-            unset($settings['hiddenskins']);
+            $settings['newscomments'] = " Not supported yet";
+            $settings['logging'] = " Not supported yet";
+            $settings['maintenance'] = " Not supported yet";
+            $settings['debug'] = " Not supported yet";
+            $settings['captcha'] = " Not supported yet";
+            $settings['version'] = " Not supported yet";
+            $settings['words'] = " Not supported yet";
+            $settings['anonchallenges'] = " Not supported yet";
+            $settings['anonrecs'] = " Not supported yet";
+            $settings['rectarget'] = " Not supported yet";
+            $settings['autovalrecs'] = " Not supported yet";
+            $settings['hiddenskins'] = " Not supported yet";
             
             return $settings;
         }
@@ -238,7 +252,7 @@ if (!class_exists('e_efiction'))
             $settings = $this->replace_plugins_settings($settings);
             $settings = $this->replace_efiction_settings($settings);
             
-
+ 
             $pref =  e107::getPref();
  
             //default values if they are not set
@@ -370,6 +384,14 @@ if (!class_exists('e_efiction'))
             }
 
             return $userlinks;
+        }
+
+        /**
+         * @return array
+         */
+        public function getMessages()
+        {
+            return $this->efiction['messages'];
         }
     }
 }
